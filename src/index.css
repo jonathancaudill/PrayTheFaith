@@ -1,0 +1,844 @@
+:root {
+  --bg-content: #e8e8e8;
+  --bg-hero: #e0e0e0;
+  --text: #1a1a1a;
+  --text-muted: #444;
+  --accent: #c24d75;
+  --serif: 'Fraunces', Georgia, serif;
+  --sans: 'DM Sans', system-ui, sans-serif;
+}
+
+*,
+*::before,
+*::after {
+  box-sizing: border-box;
+}
+
+html {
+  font-size: 16px;
+  -webkit-font-smoothing: antialiased;
+  height: 100%;
+  overflow: hidden;
+}
+
+body {
+  margin: 0;
+  font-family: var(--serif);
+  color: var(--text);
+  background: var(--bg-content);
+  min-height: 100vh;
+  height: 100%;
+  overflow: hidden;
+  touch-action: none;
+}
+
+#root {
+  min-height: 100vh;
+  height: 100%;
+  overflow: hidden;
+}
+
+@media (max-width: 250px) and (max-height: 250px) {
+  html,
+  body,
+  #root {
+    overflow: auto;
+  }
+  body {
+    touch-action: auto;
+  }
+}
+
+a {
+  color: inherit;
+  font-style: italic;
+  text-decoration: underline;
+}
+
+a:hover {
+  color: var(--accent);
+}
+
+.page-content {
+  max-width: 42rem;
+  margin: 0 auto;
+  padding: 1.5rem 1.25rem;
+}
+
+/* Layout */
+.layout {
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
+}
+
+.layout--hero {
+  background: var(--bg-hero) url('/landscape.png') center / cover no-repeat;
+}
+
+.layout--hero .header__link,
+.layout--hero .menu__cta,
+.layout--hero .hero__quote,
+.layout--hero .hero__cta {
+  color: #fff;
+}
+
+.layout--hero .header__link:hover,
+.layout--hero .hero__cta:hover {
+  color: rgba(255, 255, 255, 0.85);
+}
+
+.layout__main {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+}
+
+/* Header */
+.header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 1rem 1.25rem;
+  position: relative;
+  z-index: 10;
+}
+
+.header__link {
+  font-family: var(--sans);
+  font-size: 0.9rem;
+  font-weight: 500;
+}
+
+/* ====================================================================
+   Liquid Glass Buttons
+   ==================================================================== */
+
+.glass-btn {
+  display: inline-block;
+  padding: 0.5rem 1.25rem;
+  border-radius: 999px;
+  background: rgba(255, 255, 255, 0.18);
+  backdrop-filter: blur(10px);
+  -webkit-backdrop-filter: blur(10px);
+  box-shadow:
+    0 0 0 0.5px rgba(255, 255, 255, 0.45),
+    0 0 12px 1px rgba(194, 77, 117, 0.08),
+    inset 0 1px 0 rgba(255, 255, 255, 0.25);
+  transition:
+    background 0.3s ease,
+    box-shadow 0.35s ease,
+    transform 0.25s ease;
+  text-decoration: none;
+  cursor: pointer;
+}
+
+.glass-btn:hover {
+  background: rgba(255, 255, 255, 0.28);
+  box-shadow:
+    0 0 0 0.5px rgba(255, 255, 255, 0.55),
+    0 0 16px 2px rgba(194, 77, 117, 0.14),
+    inset 0 1px 0 rgba(255, 255, 255, 0.3);
+  transform: translateY(-1px);
+}
+
+.glass-btn:active {
+  transform: translateY(0);
+  background: rgba(255, 255, 255, 0.22);
+}
+
+/* Hero-page variant (white tint on dark background) */
+.layout--hero .glass-btn {
+  background: rgba(255, 255, 255, 0.12);
+  box-shadow:
+    0 0 0 0.5px rgba(255, 255, 255, 0.35),
+    0 0 14px 2px rgba(255, 255, 255, 0.06),
+    inset 0 1px 0 rgba(255, 255, 255, 0.2);
+}
+
+.layout--hero .glass-btn:hover {
+  background: rgba(255, 255, 255, 0.22);
+  box-shadow:
+    0 0 0 0.5px rgba(255, 255, 255, 0.5),
+    0 0 18px 3px rgba(255, 255, 255, 0.1),
+    inset 0 1px 0 rgba(255, 255, 255, 0.3);
+}
+
+/* Menu-item variant (full-width, rectangular with rounded corners) */
+.glass-btn--menu {
+  display: block;
+  padding: 0.75rem 1rem;
+  border-radius: 0.6rem;
+  margin-bottom: 0.35rem;
+  background: rgba(255, 255, 255, 0.14);
+  backdrop-filter: blur(10px);
+  -webkit-backdrop-filter: blur(10px);
+  box-shadow:
+    0 0 0 0.5px rgba(255, 255, 255, 0.35),
+    0 0 8px 1px rgba(194, 77, 117, 0.06),
+    inset 0 1px 0 rgba(255, 255, 255, 0.2);
+  transition:
+    background 0.3s ease,
+    box-shadow 0.35s ease,
+    transform 0.25s ease;
+  text-decoration: none;
+  cursor: pointer;
+}
+
+.glass-btn--menu:hover {
+  background: rgba(255, 255, 255, 0.25);
+  box-shadow:
+    0 0 0 0.5px rgba(255, 255, 255, 0.5),
+    0 0 12px 2px rgba(194, 77, 117, 0.12),
+    inset 0 1px 0 rgba(255, 255, 255, 0.3);
+  transform: translateX(2px);
+}
+
+.glass-btn--menu:active {
+  transform: translateX(0);
+  background: rgba(255, 255, 255, 0.18);
+}
+
+/* PTF Logo → X */
+.ptf-logo {
+  background: none;
+  border: none;
+  cursor: pointer;
+  padding: 0.5rem;
+  margin: -0.5rem 0 0 -0.5rem;
+  font: inherit;
+  color: inherit;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.ptf-logo__inner {
+  display: block;
+  width: 1.75rem;
+  height: 1.25rem;
+  position: relative;
+}
+
+.ptf-logo__letters {
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+  font-family: var(--sans);
+  font-size: 0.85rem;
+  font-weight: 500;
+  letter-spacing: 0.02em;
+}
+
+.ptf-logo__row {
+  display: flex;
+  align-items: center;
+  gap: 4px;
+}
+
+.ptf-logo__char {
+  min-width: 0.5em;
+}
+
+.ptf-logo__line {
+  width: 6px;
+  height: 1px;
+  background: currentColor;
+}
+
+.ptf-logo__line--long {
+  width: 10px;
+}
+
+.ptf-logo__x {
+  position: absolute;
+  inset: 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.ptf-logo__x-line {
+  position: absolute;
+  width: 100%;
+  height: 1px;
+  background: currentColor;
+}
+
+.ptf-logo__x-line--1 {
+  transform: rotate(45deg);
+}
+
+.ptf-logo__x-line--2 {
+  transform: rotate(-45deg);
+}
+
+/* Menu overlay */
+.menu {
+  position: fixed;
+  inset: 0;
+  z-index: 100;
+  visibility: hidden;
+  pointer-events: none;
+}
+
+.menu--open {
+  visibility: visible;
+  pointer-events: auto;
+}
+
+.menu__backdrop {
+  position: absolute;
+  inset: 0;
+  background: rgba(0, 0, 0, 0);
+  z-index: 0;
+  transition: background 0.3s ease;
+}
+
+.menu--open .menu__backdrop {
+  background: rgba(0, 0, 0, 0.15);
+}
+
+.menu__panel {
+  position: absolute;
+  left: 0;
+  top: 0;
+  bottom: 0;
+  width: min(85vw, 20rem);
+  background: rgba(232, 232, 232, 0.45);
+  backdrop-filter: blur(32px) saturate(1.5);
+  -webkit-backdrop-filter: blur(32px) saturate(1.5);
+  padding: 1rem 1.25rem;
+  display: flex;
+  flex-direction: column;
+  box-shadow:
+    4px 0 32px rgba(0, 0, 0, 0.12),
+    1px 0 0 rgba(255, 255, 255, 0.25);
+  transform: translateX(-100%);
+  transition: transform 0.3s cubic-bezier(0.22, 1, 0.36, 1);
+  z-index: 1;
+}
+
+.menu--open .menu__panel {
+  transform: translateX(0);
+}
+
+.menu__title {
+  font-family: var(--sans);
+  font-size: 0.85rem;
+  font-style: italic;
+  color: var(--text-muted);
+  margin: 1.5rem 0 0.5rem;
+}
+
+.menu__nav {
+  display: flex;
+  flex-direction: column;
+  margin-top: 0.5rem;
+}
+
+.menu__link {
+  font-family: var(--sans);
+  font-size: 1rem;
+  font-style: italic;
+}
+
+.menu__cta {
+  margin-top: auto;
+  padding-top: 1.5rem;
+  font-family: var(--sans);
+  font-weight: 500;
+  text-align: center;
+  color: var(--text);
+}
+
+/* Hero (Home) */
+.hero {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  padding: 2rem 1.5rem;
+  text-align: center;
+}
+
+.hero__quote {
+  font-family: var(--serif);
+  font-size: clamp(2rem, 6vw, 3rem);
+  font-weight: 400;
+  font-style: italic;
+  line-height: 1.25;
+  margin: 0 0 2rem;
+}
+
+.hero__cta {
+  font-family: var(--sans);
+  font-size: 1rem;
+  font-weight: 500;
+  font-style: normal;
+  text-decoration: none;
+}
+
+.hero__cta:hover {
+  text-decoration: underline;
+}
+
+/* Content pages */
+.page-title {
+  font-size: 1.75rem;
+  font-weight: 600;
+  margin: 0 0 0.5rem;
+}
+
+.mysteries-set-label {
+  font-style: italic;
+  color: var(--text-muted);
+  margin: 0 0 1rem;
+}
+
+.mysteries-list {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+}
+
+.mysteries-list li {
+  border-bottom: 1px solid rgba(0, 0, 0, 0.08);
+}
+
+.mysteries-list a {
+  display: block;
+  padding: 0.75rem 0;
+  font-style: italic;
+}
+
+.swipe-hint {
+  margin-top: 2rem;
+  font-size: 0.9rem;
+  font-style: italic;
+  color: var(--text-muted);
+}
+
+/* Mystery page */
+.mystery-page {
+  padding-bottom: 4rem;
+}
+
+.mystery-content-wrap {
+  animation: guidedContentIn 0.28s ease-out;
+}
+
+/* When using same direction-based animation as guided rosary, children get guidedFadeUp/Down */
+.mystery-content-wrap.guided__content {
+  animation: none;
+}
+
+.mystery-title {
+  font-size: 1.5rem;
+  font-weight: 600;
+  margin: 0 0 1rem;
+}
+
+.mystery-meditation,
+.mystery-reflection {
+  margin: 0 0 0.75rem;
+  line-height: 1.5;
+}
+
+.mystery-reflection {
+  color: var(--text-muted);
+  font-size: 0.95rem;
+}
+
+.mystery-reading-ref {
+  font-style: italic;
+  color: var(--text-muted);
+  margin: 0 0 0.5rem;
+}
+
+.mystery-reading-text {
+  line-height: 1.6;
+  margin: 0;
+}
+
+.mystery-hints {
+  margin-top: 2rem;
+}
+
+/* ====================================================================
+   Guided rosary
+   ==================================================================== */
+
+.guided {
+  display: flex;
+  flex: 1;
+  min-height: 0;
+}
+
+/* ---- bead column viewport ---- */
+
+.guided__bead-viewport {
+  position: relative;
+  flex-shrink: 0;
+  width: 2.75rem;
+  /* overflow is visible so the glass-lens glow can extend slightly */
+}
+
+/* Scrollable inner area (clips + fades the chain at edges) */
+.guided__bead-scroll {
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  overflow: hidden;
+  -webkit-mask-image: linear-gradient(
+    to bottom,
+    transparent 0%,
+    black 12%,
+    black 88%,
+    transparent 100%
+  );
+  mask-image: linear-gradient(
+    to bottom,
+    transparent 0%,
+    black 12%,
+    black 88%,
+    transparent 100%
+  );
+}
+
+/* The full bead chain (moved via translateY) */
+.guided__bead-chain {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  position: relative;
+  transition: transform 0.45s cubic-bezier(0.4, 0, 0.2, 1);
+  will-change: transform;
+}
+
+/* Connecting chain line */
+.guided__bead-chain::before {
+  content: '';
+  position: absolute;
+  left: 50%;
+  top: 0;
+  bottom: 0;
+  width: 1.5px;
+  transform: translateX(-50%);
+  background: rgba(0, 0, 0, 0.12);
+  z-index: 0;
+  pointer-events: none;
+}
+
+/* ---- beads ---- */
+
+.guided__bead {
+  width: 14px;
+  height: 14px;
+  border-radius: 50%;
+  background: rgba(0, 0, 0, 0.15);
+  /* Exit transition: fast fade-out, no delay */
+  transition: background 0.3s ease, transform 0.3s ease;
+  position: relative;
+  z-index: 1;
+  flex-shrink: 0;
+  margin-bottom: 0.5rem;
+}
+
+.guided__bead--current {
+  background: var(--accent);
+  transform: scale(1.2);
+  /* Enter transition: delayed so the lens arrives first */
+  transition: background 0.4s ease 0.15s, transform 0.35s ease 0.1s;
+}
+
+.guided__bead--after-chain,
+.guided__crucifix.guided__bead--after-chain,
+.guided__shield.guided__bead--after-chain {
+  margin-bottom: 1.25rem;
+}
+
+/* ---- crucifix (first bead) ---- */
+
+.guided__crucifix {
+  position: relative;
+  z-index: 1;
+  flex-shrink: 0;
+  margin-bottom: 0.5rem;
+  color: rgba(0, 0, 0, 0.35);
+  width: 24px;
+  height: 32px;
+  transition: color 0.3s ease;
+}
+
+.guided__crucifix svg {
+  width: 100%;
+  height: 100%;
+  display: block;
+}
+
+.guided__crucifix--current {
+  color: var(--accent);
+  transition: color 0.4s ease 0.15s;
+}
+
+/* ---- shield (Hail Holy Queen) ---- */
+
+.guided__shield {
+  width: 21px;
+  height: 24px;
+  flex-shrink: 0;
+  margin-bottom: 0.5rem;
+  background: transparent;
+  border: 1.2px solid rgba(0, 0, 0, 0.25);
+  clip-path: polygon(50% 0%, 100% 25%, 100% 75%, 50% 100%, 0% 75%, 0% 25%);
+  position: relative;
+  z-index: 1;
+  transition: border-color 0.3s ease, background 0.3s ease;
+}
+
+.guided__shield--current {
+  border-color: var(--accent);
+  background: rgba(194, 77, 117, 0.15);
+  transition: border-color 0.4s ease 0.15s, background 0.4s ease 0.15s;
+}
+
+/* ---- Liquid Glass Lens ----
+   Keep width/height in sync with LENS_DIAMETER in LiquidGlassLens.tsx */
+
+.glass-lens {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  width: 32px;
+  height: 32px;
+  transform: translate(-50%, -50%);
+  border-radius: 50%;
+  z-index: 10;
+  pointer-events: none;
+  /* Fallback: frosted-glass look for non-Chromium browsers */
+  backdrop-filter: blur(2px);
+  -webkit-backdrop-filter: blur(2px);
+  background: transparent;
+  box-shadow:
+    0 0 0 0.5px rgba(255, 255, 255, 0.4),
+    0 0 8px 1px rgba(194, 77, 117, 0.1);
+}
+
+/* Chromium: override with SVG refraction filter */
+.glass-lens--chromium {
+  backdrop-filter: url(#ptf-liquid-glass);
+  -webkit-backdrop-filter: url(#ptf-liquid-glass);
+}
+
+/* ---- prayer content panel ---- */
+
+.guided__content {
+  flex: 1;
+  min-width: 0;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  padding: 1rem 0 4rem;
+}
+
+/* Forward: text materialises upward (navigating deeper into rosary) */
+@keyframes guidedFadeUp {
+  0% {
+    opacity: 0;
+    transform: translateY(28px);
+    filter: blur(6px);
+  }
+  35% {
+    opacity: 0.7;
+    filter: blur(1.5px);
+  }
+  100% {
+    opacity: 1;
+    transform: translateY(0);
+    filter: blur(0);
+  }
+}
+
+/* Backward: text descends from above (navigating back) */
+@keyframes guidedFadeDown {
+  0% {
+    opacity: 0;
+    transform: translateY(-28px);
+    filter: blur(6px);
+  }
+  35% {
+    opacity: 0.7;
+    filter: blur(1.5px);
+  }
+  100% {
+    opacity: 1;
+    transform: translateY(0);
+    filter: blur(0);
+  }
+}
+
+/* Keep the simple version for the mystery page */
+@keyframes guidedContentIn {
+  from {
+    opacity: 0;
+    transform: translateY(8px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+.guided__title {
+  font-size: 1.5rem;
+  font-weight: 700;
+  margin: 0 0 0.75rem;
+  text-align: right;
+}
+
+.guided__body {
+  line-height: 1.6;
+  margin: 0;
+  white-space: pre-line;
+  text-align: right;
+}
+
+.guided__amen {
+  text-align: right;
+  margin-top: 0.5rem;
+}
+
+/* ---- direction-aware staggered entrance ---- */
+
+.guided__content--next .guided__title {
+  animation: guidedFadeUp 0.85s cubic-bezier(0.22, 1, 0.36, 1) both;
+}
+.guided__content--next .guided__body {
+  animation: guidedFadeUp 0.9s cubic-bezier(0.22, 1, 0.36, 1) 0.1s both;
+}
+.guided__content--next .guided__amen {
+  animation: guidedFadeUp 0.75s cubic-bezier(0.22, 1, 0.36, 1) 0.2s both;
+}
+
+.guided__content--prev .guided__title {
+  animation: guidedFadeDown 0.85s cubic-bezier(0.22, 1, 0.36, 1) both;
+}
+.guided__content--prev .guided__body {
+  animation: guidedFadeDown 0.9s cubic-bezier(0.22, 1, 0.36, 1) 0.1s both;
+}
+.guided__content--prev .guided__amen {
+  animation: guidedFadeDown 0.75s cubic-bezier(0.22, 1, 0.36, 1) 0.2s both;
+}
+
+.guided__swipe {
+  position: absolute;
+  bottom: 1.5rem;
+  left: 50%;
+  transform: translateX(-50%);
+  font-style: italic;
+  font-size: 0.9rem;
+  color: var(--text-muted);
+}
+
+.guided__swipe-arrow {
+  display: block;
+  text-align: center;
+  margin-top: 0.25rem;
+}
+
+.guided__next-btn {
+  position: fixed;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  height: 5rem;
+  background: transparent;
+  border: none;
+  cursor: pointer;
+  z-index: 1;
+}
+
+/* Encouragement page */
+.encouragement-title {
+  margin-bottom: 0.5rem;
+}
+
+.encouragement-source {
+  font-style: italic;
+  color: var(--text-muted);
+  margin: 0 0 1rem;
+}
+
+.encouragement-body p {
+  margin: 0 0 0.75rem;
+  line-height: 1.6;
+}
+
+.encouragement-body p:last-child {
+  margin-bottom: 0;
+}
+
+.encouragement-loading,
+.encouragement-empty,
+.encouragement-thanks {
+  color: var(--text-muted);
+  margin: 0 0 1rem;
+}
+
+.encouragement-submit-link {
+  margin: 2rem 0 1rem;
+}
+
+.encouragement-form {
+  margin-top: 1.5rem;
+  padding-top: 1.5rem;
+  border-top: 1px solid rgba(0, 0, 0, 0.08);
+}
+
+.encouragement-label {
+  display: block;
+  margin-bottom: 1rem;
+  font-size: 0.9rem;
+  color: var(--text-muted);
+}
+
+.encouragement-input {
+  display: block;
+  width: 100%;
+  margin-top: 0.35rem;
+  padding: 0.5rem 0.6rem;
+  font-family: var(--serif);
+  font-size: 1rem;
+  border: 1px solid rgba(0, 0, 0, 0.15);
+  background: #fff;
+  border-radius: 2px;
+}
+
+.encouragement-textarea {
+  resize: vertical;
+  min-height: 6rem;
+}
+
+.encouragement-error {
+  color: var(--accent);
+  margin: 0 0 0.5rem;
+}
+
+.encouragement-submit {
+  font-family: var(--sans);
+  font-size: 1rem;
+  padding: 0.5rem 1.25rem;
+  background: var(--text);
+  color: var(--bg-content);
+  border: none;
+  border-radius: 2px;
+  cursor: pointer;
+}
+
+.encouragement-submit:hover {
+  background: var(--accent);
+}
