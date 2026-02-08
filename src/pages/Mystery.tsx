@@ -185,42 +185,47 @@ export function Mystery({ set: setParam, index: indexParam }: Props) {
   return (
     <>
       <div className="mystery-page">
-        <span className="mystery-set-badge">
-          {SET_NAMES[set]} · Mystery {mystery.number}
-        </span>
-        <h1 className="mystery-title">{mystery.name}</h1>
-
-        <div
-          key={`${mystery.id}-${showMeditation}-${readingIndex}`}
-          className={`mystery-body ${animClass}`}
-        >
-          {showingMeditation ? (
-            <>
-              <p className="mystery-meditation">{mystery.meditation}</p>
-              {mystery.reflection && (
-                <p className="mystery-reflection">{mystery.reflection}</p>
-              )}
-            </>
-          ) : currentReading ? (
-            <>
-              <p className="mystery-reading-ref">{currentReading.reference}</p>
-              <p className="mystery-reading-text">{currentReading.text}</p>
-            </>
-          ) : null}
+        <div className="mystery-page__head">
+          <span className="mystery-set-badge">
+            {SET_NAMES[set]} · Mystery {mystery.number}
+          </span>
+          <h1 className="mystery-title">{mystery.name}</h1>
         </div>
 
-        {totalPages > 1 && (
-          <div className="mystery-dots">
-            {Array.from({ length: totalPages }, (_, i) => (
-              <span
-                key={i}
-                className={`mystery-dot${i === currentPage ? ' mystery-dot--active' : ''}`}
-              />
-            ))}
+        <div className="mystery-page__content">
+          <div
+            key={`${mystery.id}-${showMeditation}-${readingIndex}`}
+            className={`mystery-body ${animClass}`}
+          >
+            {showingMeditation ? (
+              <>
+                <p className="mystery-meditation">{mystery.meditation}</p>
+                {mystery.reflection && (
+                  <p className="mystery-reflection">{mystery.reflection}</p>
+                )}
+              </>
+            ) : currentReading ? (
+              <>
+                <p className="mystery-reading-ref">{currentReading.reference}</p>
+                <p className="mystery-reading-text">{currentReading.text}</p>
+              </>
+            ) : null}
           </div>
-        )}
+        </div>
 
-        {hintText && <p className="mystery-hint glass-btn">{hintText}</p>}
+        <div className="mystery-page__foot">
+          {totalPages > 1 && (
+            <div className="mystery-dots">
+              {Array.from({ length: totalPages }, (_, i) => (
+                <span
+                  key={i}
+                  className={`mystery-dot${i === currentPage ? ' mystery-dot--active' : ''}`}
+                />
+              ))}
+            </div>
+          )}
+          {hintText && <p className="mystery-hint glass-btn">{hintText}</p>}
+        </div>
       </div>
 
       <SwipeListeners

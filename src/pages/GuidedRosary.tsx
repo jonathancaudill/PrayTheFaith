@@ -257,7 +257,14 @@ export function GuidedRosary() {
         </div>
       </div>
 
-      <p className="guided__swipe glass-btn">
+      <p
+        className="guided__swipe glass-btn"
+        role="button"
+        tabIndex={0}
+        onClick={goNext}
+        onKeyDown={(e) => { if (e.key === 'Enter' || e.key === ' ') { e.preventDefault(); goNext(); } }}
+        aria-label="Next prayer"
+      >
         swipe
         <span className="guided__swipe-arrow">↓</span>
       </p>

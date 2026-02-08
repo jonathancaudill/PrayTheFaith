@@ -320,12 +320,12 @@ a:hover {
   position: absolute;
   inset: 0;
   z-index: 0;
-  /* Strong gaussian blur feathered from left → right via gradient mask */
+  /* Strong gaussian blur: solid past the panel/pills (20rem), then feathered fade */
   backdrop-filter: blur(32px) saturate(1.4);
   -webkit-backdrop-filter: blur(32px) saturate(1.4);
   background: rgba(232, 232, 232, 0.1);
-  -webkit-mask-image: linear-gradient(to right, black 0%, black 18%, transparent 58%);
-  mask-image: linear-gradient(to right, black 0%, black 18%, transparent 58%);
+  -webkit-mask-image: linear-gradient(to right, black 0, black 24rem, transparent 36rem);
+  mask-image: linear-gradient(to right, black 0, black 24rem, transparent 36rem);
   opacity: 0;
   transition: opacity 0.35s ease;
 }
@@ -555,12 +555,16 @@ a:hover {
   display: flex;
   flex-direction: column;
   align-items: center;
-  justify-content: center;
   min-height: calc(100vh - 5rem);
   max-width: 38rem;
   margin: 0 auto;
   padding: 1.5rem 1.25rem 2rem;
   text-align: center;
+}
+
+.mystery-page__head {
+  flex-shrink: 0;
+  margin-bottom: 1rem;
 }
 
 .mystery-set-badge {
@@ -576,12 +580,29 @@ a:hover {
 .mystery-title {
   font-size: 1.6rem;
   font-weight: 600;
-  margin: 0 0 2rem;
+  margin: 0;
   line-height: 1.3;
+}
+
+.mystery-page__content {
+  flex: 1;
+  min-height: 12rem;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  width: 100%;
+  overflow-y: auto;
+  -webkit-overflow-scrolling: touch;
 }
 
 .mystery-body {
   width: 100%;
+}
+
+.mystery-page__foot {
+  flex-shrink: 0;
+  margin-top: 1.5rem;
+  padding-top: 0.5rem;
 }
 
 .mystery-meditation {
@@ -619,7 +640,7 @@ a:hover {
   display: flex;
   justify-content: center;
   gap: 8px;
-  margin-top: 2rem;
+  margin-bottom: 0.75rem;
 }
 
 .mystery-dot {
@@ -638,7 +659,7 @@ a:hover {
 /* ---- contextual hint ---- */
 
 .mystery-hint {
-  margin-top: 1.5rem;
+  margin: 0;
   font-size: 0.85rem;
   font-style: italic;
   color: var(--text-muted);
@@ -898,9 +919,9 @@ a:hover {
   border-radius: 50%;
   z-index: 10;
   pointer-events: none;
-  /* Fallback for non-WebGL browsers */
-  backdrop-filter: blur(1.5px) saturate(1.3);
-  -webkit-backdrop-filter: blur(1.5px) saturate(1.3);
+  /* Fallback for non-WebGL browsers — blur disabled */
+  backdrop-filter: saturate(1.3);
+  -webkit-backdrop-filter: saturate(1.3);
   background: transparent;
   box-shadow:
     0 0 0 0.5px rgba(255, 255, 255, 0.45),
@@ -915,7 +936,7 @@ a:hover {
   display: flex;
   flex-direction: column;
   justify-content: center;
-  padding: 1rem 0 4rem;
+  padding: 1rem 1.25rem 4rem 1.5rem;
 }
 
 /* Forward: text materialises upward (navigating deeper into rosary) */
