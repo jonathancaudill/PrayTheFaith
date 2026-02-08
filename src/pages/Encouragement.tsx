@@ -43,66 +43,76 @@ export function Encouragement() {
   };
 
   return (
-    <div className="page-content">
-        <h1 className="page-title encouragement-title">Today's Encouragement</h1>
-        {loading && <p className="encouragement-loading">Loading…</p>}
-        {!loading && encouragement && (
-          <>
-            <p className="encouragement-source">
-              From {encouragement.author_name} in {encouragement.location}:
-            </p>
-            <div className="encouragement-body">
-              {encouragement.content.split(/\n\n+/).map((para: string, i: number) => (
-                <p key={i}>{para}</p>
-              ))}
-            </div>
-          </>
-        )}
-        {!loading && !encouragement && !submitted && (
-          <p className="encouragement-empty">No encouragement for today yet. Be the first to submit one below.</p>
-        )}
-        {submitted && (
-          <p className="encouragement-thanks">Thank you. Your encouragement has been submitted for review.</p>
-        )}
-        <p className="encouragement-submit-link">
-          <a href="#" onClick={(e) => { e.preventDefault(); const form = document.querySelector('.encouragement-form') as HTMLElement; form?.scrollIntoView({ behavior: 'smooth' }); (form?.querySelector('input') as HTMLInputElement | null)?.focus(); }}>
-            submit your own encouragement
-          </a>
-        </p>
-        <form className="encouragement-form" onSubmit={onSubmit}>
-          <label className="encouragement-label">
-            Your name
-            <input
-              type="text"
-              value={form.author_name}
-              onInput={(e) => setForm((f: { author_name: string; location: string; content: string }) => ({ ...f, author_name: (e.target as HTMLInputElement).value }))}
-              required
-              className="encouragement-input"
-            />
-          </label>
-          <label className="encouragement-label">
-            Location (e.g. city, state)
-            <input
-              type="text"
-              value={form.location}
-              onInput={(e) => setForm((f: { author_name: string; location: string; content: string }) => ({ ...f, location: (e.target as HTMLInputElement).value }))}
-              required
-              className="encouragement-input"
-            />
-          </label>
-          <label className="encouragement-label">
-            Your encouragement
-            <textarea
-              value={form.content}
-              onInput={(e) => setForm((f: { author_name: string; location: string; content: string }) => ({ ...f, content: (e.target as HTMLTextAreaElement).value }))}
-              required
-              rows={5}
-              className="encouragement-input encouragement-textarea"
-            />
-          </label>
-          {error && <p className="encouragement-error">{error}</p>}
-          <button type="submit" className="encouragement-submit">Submit</button>
-        </form>
-      </div>
+    <div className="encouragement-page page-content">
+      <h1 className="page-title encouragement-title">Today's Encouragement</h1>
+
+      {loading && <p className="encouragement-loading">Loading…</p>}
+
+      {!loading && encouragement && (
+        <>
+          <p className="encouragement-source">
+            From {encouragement.author_name} in {encouragement.location}
+          </p>
+          <div className="encouragement-body">
+            {encouragement.content.split(/\n\n+/).map((para: string, i: number) => (
+              <p key={i}>{para}</p>
+            ))}
+          </div>
+        </>
+      )}
+
+      {!loading && !encouragement && !submitted && (
+        <p className="encouragement-empty">No encouragement for today yet. Be the first to submit one below.</p>
+      )}
+
+      {submitted && (
+        <p className="encouragement-thanks">Thank you. Your encouragement has been submitted for review.</p>
+      )}
+
+      <p className="encouragement-submit-link">
+        <a href="#" className="glass-btn" onClick={(e) => { e.preventDefault(); const el = document.querySelector('.encouragement-form') as HTMLElement; el?.scrollIntoView({ behavior: 'smooth' }); (el?.querySelector('input') as HTMLInputElement | null)?.focus(); }}>
+          <span>submit your own encouragement</span>
+        </a>
+      </p>
+
+      <form className="encouragement-form" onSubmit={onSubmit}>
+        <h2 className="encouragement-form-title">Share Your Encouragement</h2>
+        <label className="encouragement-label">
+          Your name
+          <input
+            type="text"
+            value={form.author_name}
+            onInput={(e) => setForm((f: { author_name: string; location: string; content: string }) => ({ ...f, author_name: (e.target as HTMLInputElement).value }))}
+            required
+            className="encouragement-input glass-input"
+            placeholder="e.g. John"
+          />
+        </label>
+        <label className="encouragement-label">
+          Location
+          <input
+            type="text"
+            value={form.location}
+            onInput={(e) => setForm((f: { author_name: string; location: string; content: string }) => ({ ...f, location: (e.target as HTMLInputElement).value }))}
+            required
+            className="encouragement-input glass-input"
+            placeholder="e.g. Dallas, TX"
+          />
+        </label>
+        <label className="encouragement-label">
+          Your encouragement
+          <textarea
+            value={form.content}
+            onInput={(e) => setForm((f: { author_name: string; location: string; content: string }) => ({ ...f, content: (e.target as HTMLTextAreaElement).value }))}
+            required
+            rows={5}
+            className="encouragement-input encouragement-textarea glass-input"
+            placeholder="Write something to brighten someone's day…"
+          />
+        </label>
+        {error && <p className="encouragement-error">{error}</p>}
+        <button type="submit" className="encouragement-submit glass-btn"><span>Submit</span></button>
+      </form>
+    </div>
   );
 }

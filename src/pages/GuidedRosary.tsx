@@ -6,7 +6,6 @@ import {
   useRef,
 } from 'preact/hooks';
 import { buildRosarySteps } from '../data/rosary';
-import { LiquidGlassLens } from '../components/LiquidGlassLens';
 
 const STEPS = buildRosarySteps();
 
@@ -242,8 +241,8 @@ export function GuidedRosary() {
             </div>
           </div>
 
-          {/* Liquid glass lens (sits above the scroll area) */}
-          <LiquidGlassLens />
+          {/* Liquid glass lens (CSS backdrop-filter — tracks live bead positions) */}
+          <div className="glass-lens" aria-hidden />
         </div>
 
         {/* ---------- prayer content ---------- */}

@@ -9,7 +9,11 @@ import { Encouragement } from './pages/Encouragement';
 
 export function App() {
   useEffect(() => {
-    const handleWheel = (e: WheelEvent) => e.preventDefault();
+    const handleWheel = (e: WheelEvent) => {
+      const path = typeof window !== 'undefined' ? window.location.pathname : '';
+      if (/^\/mysteries\/[^/]+\/\d+$/.test(path)) return;
+      e.preventDefault();
+    };
     window.addEventListener('wheel', handleWheel, { passive: false, capture: true });
     return () => window.removeEventListener('wheel', handleWheel, true);
   }, []);

@@ -5,14 +5,13 @@ type Props = {
   onClose: () => void;
 };
 
-function NavLink({ href, children, onClose }: { href: string; children: string; onClose: () => void }) {
+function NavLink({ href, children }: { href: string; children: string; onClose: () => void }) {
   return (
     <a
       href={href}
       className="menu__link glass-btn--menu"
       onClick={(e) => {
         e.preventDefault();
-        onClose();
         route(href);
       }}
     >
@@ -38,7 +37,6 @@ export function Menu({ open, onClose }: Props) {
           className="menu__cta glass-btn"
           onClick={(e) => {
             e.preventDefault();
-            onClose();
             route('/mysteries');
           }}
         >

@@ -13,35 +13,38 @@ export function MysteriesToday() {
   const mysteries = MYSTERY_SETS[todaySet];
 
   return (
-    <div className="page-content">
-        <h1 className="page-title">Mysteries for today</h1>
-        <p className="mysteries-set-label">{SET_NAMES[todaySet]} Mysteries</p>
-        <ul className="mysteries-list">
-          {mysteries.map((m, i) => (
-            <li key={m.id}>
-              <a
-                href={`/mysteries/${todaySet}/${i}`}
-                onClick={(e) => {
-                  e.preventDefault();
-                  route(`/mysteries/${todaySet}/${i}`);
-                }}
-              >
-                {m.number}. {m.name}
-              </a>
-            </li>
-          ))}
-        </ul>
-        <p className="swipe-hint glass-btn">
+    <div className="mysteries-today">
+      <p className="mysteries-today__label">{SET_NAMES[todaySet]} Mysteries</p>
+      <h1 className="mysteries-today__heading">Today's Mysteries</h1>
+
+      <div className="mysteries-today__list">
+        {mysteries.map((m, i) => (
           <a
-            href={`/mysteries/${todaySet}/0`}
-            onClick={(e) => {
+            key={m.id}
+            href={`/mysteries/${todaySet}/${i}`}
+            className="mysteries-today__card"
+            onClick={(e: Event) => {
               e.preventDefault();
-              route(`/mysteries/${todaySet}/0`);
+              route(`/mysteries/${todaySet}/${i}`);
             }}
+            style={{ animationDelay: `${i * 0.07}s` }}
           >
-            Start with the first mystery →
+            <span className="mysteries-today__num">{m.number}</span>
+            <span className="mysteries-today__name">{m.name}</span>
           </a>
-        </p>
+        ))}
       </div>
+
+      <a
+        href={`/mysteries/${todaySet}/0`}
+        className="mysteries-today__cta glass-btn"
+        onClick={(e: Event) => {
+          e.preventDefault();
+          route(`/mysteries/${todaySet}/0`);
+        }}
+      >
+        Begin the First Mystery →
+      </a>
+    </div>
   );
 }
