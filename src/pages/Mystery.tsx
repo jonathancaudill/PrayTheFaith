@@ -66,12 +66,14 @@ export function Mystery({ set: setParam, index: indexParam }: Props) {
         }))
         .filter((x) => x.reference || x.text);
 
-    if (USE_SUPABASE_REST) {
-      const url = `${SUPABASE_URL.replace(/\/$/, '')}/rest/v1/readings?mystery_id=eq.${encodeURIComponent(mystery.id)}&order=id.asc`;
+    if (USE_SUPABASE_REST && SUPABASE_URL && SUPABASE_ANON_KEY) {
+      const baseUrl = SUPABASE_URL.replace(/\/$/, '');
+      const anonKey = SUPABASE_ANON_KEY;
+      const url = `${baseUrl}/rest/v1/readings?mystery_id=eq.${encodeURIComponent(mystery.id)}&order=id.asc`;
       fetch(url, {
         headers: {
-          apikey: SUPABASE_ANON_KEY,
-          Authorization: `Bearer ${SUPABASE_ANON_KEY}`,
+          apikey: anonKey,
+          Authorization: `Bearer ${anonKey}`,
           Accept: 'application/json',
         },
       })

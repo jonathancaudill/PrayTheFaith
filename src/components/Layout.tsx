@@ -1,4 +1,4 @@
-import { useState, useEffect, useLayoutEffect } from 'preact/hooks';
+import { useState, useLayoutEffect } from 'preact/hooks';
 import type { ComponentChildren } from 'preact';
 import { useRouter } from 'preact-router';
 import { Header } from './Header';
