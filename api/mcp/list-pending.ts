@@ -1,5 +1,5 @@
 import type { VercelRequest, VercelResponse } from '@vercel/node';
-import * as db from '../../lib/db';
+import * as db from '../../lib/db.js';
 
 const MCP_API_KEY = process.env.MCP_API_KEY || '';
 
