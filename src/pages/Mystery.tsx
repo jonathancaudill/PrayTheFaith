@@ -269,16 +269,16 @@ function SwipeListeners({
     };
   }, [onSwipeLeft, onSwipeRight, onSwipeDown, onSwipeUp]);
 
-  /* ---- keyboard ---- */
+  /* ---- keyboard (ArrowDown=next, ArrowUp=prev; matches GuidedRosary) ---- */
   useEffect(() => {
     const handleKey = (e: KeyboardEvent) => {
       if (e.key === 'ArrowDown') {
         e.preventDefault();
-        onSwipeDown();
+        onSwipeUp();
       }
       if (e.key === 'ArrowUp') {
         e.preventDefault();
-        onSwipeUp();
+        onSwipeDown();
       }
       if (e.key === 'ArrowRight') {
         e.preventDefault();
