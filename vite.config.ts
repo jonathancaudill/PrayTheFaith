@@ -33,6 +33,13 @@ export default defineConfig(({ mode }) => ({
           try {
             const url = new URL(req.url, 'http://localhost');
 
+            /* ---- /api/health ---- */
+            if (url.pathname === '/api/health') {
+              res.setHeader('Content-Type', 'application/json');
+              res.end(JSON.stringify({ ok: true, ts: new Date().toISOString() }));
+              return;
+            }
+
             /* ---- /api/readings ---- */
             if (url.pathname === '/api/readings') {
               const mystery_id = url.searchParams.get('mystery_id');

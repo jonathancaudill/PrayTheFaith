@@ -24,7 +24,12 @@ export default async function handler(req: VercelRequest, res: VercelResponse) {
       });
     } catch (e) {
       console.error(e);
-      return res.status(500).json({ error: 'Failed to fetch encouragement' });
+      const msg = e instanceof Error ? e.message : String(e);
+      const showDebug = process.env.VERCEL_ENV !== 'production' || process.env.DEBUG_API === '1';
+      return res.status(500).json({
+        error: 'Failed to fetch encouragement',
+        ...(showDebug && { debug: msg }),
+      });
     }
   }
 
@@ -42,7 +47,12 @@ export default async function handler(req: VercelRequest, res: VercelResponse) {
       return res.status(201).json({ id });
     } catch (e) {
       console.error(e);
-      return res.status(500).json({ error: 'Failed to submit encouragement' });
+      const msg = e instanceof Error ? e.message : String(e);
+      const showDebug = process.env.VERCEL_ENV !== 'production' || process.env.DEBUG_API === '1';
+      return res.status(500).json({
+        error: 'Failed to submit encouragement',
+        ...(showDebug && { debug: msg }),
+      });
     }
   }
 
