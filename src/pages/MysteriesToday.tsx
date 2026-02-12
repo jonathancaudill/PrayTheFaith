@@ -1,5 +1,7 @@
+import { useEffect } from 'preact/hooks';
 import { route } from 'preact-router';
 import { getMysteriesForToday, MYSTERY_SETS, type MysterySetId } from '../data/rosary';
+import { prefetchReadings } from '../api/readings';
 
 const SET_NAMES: Record<MysterySetId, string> = {
   joy: 'Joyful',
@@ -12,20 +14,25 @@ export function MysteriesToday() {
   const todaySet = getMysteriesForToday();
   const mysteries = MYSTERY_SETS[todaySet];
 
+  /* Prefetch readings for all mysteries so they're ready when the user navigates */
+  useEffect(() => {
+    prefetchReadings(mysteries.map((m) => m.id));
+  }, [todaySet]);
+
   return (
     <div className="mysteries-today">
-      <p className="mysteries-today__label">{SET_NAMES[todaySet]} Mysteries</p>
-      <h1 className="mysteries-today__heading">Today's Mysteries</h1>
+      <p className="mysteries-today__label">Today's Mysteries</p>
+      <h1 className="mysteries-today__heading">{SET_NAMES[todaySet]} Mysteries</h1>
 
       <div className="mysteries-today__list">
         {mysteries.map((m, i) => (
           <a
             key={m.id}
-            href={`/mysteries/${todaySet}/${i}`}
+            href={`/mysteries/${todaySet}?m=${m.number}`}
             className="mysteries-today__card"
             onClick={(e: Event) => {
               e.preventDefault();
-              route(`/mysteries/${todaySet}/${i}`);
+              route(`/mysteries/${todaySet}?m=${m.number}`);
             }}
             style={{ animationDelay: `${i * 0.07}s` }}
           >
@@ -36,11 +43,11 @@ export function MysteriesToday() {
       </div>
 
       <a
-        href={`/mysteries/${todaySet}/0`}
+        href={`/mysteries/${todaySet}`}
         className="mysteries-today__cta glass-btn"
         onClick={(e: Event) => {
           e.preventDefault();
-          route(`/mysteries/${todaySet}/0`);
+          route(`/mysteries/${todaySet}`);
         }}
       >
         Begin the First Mystery →

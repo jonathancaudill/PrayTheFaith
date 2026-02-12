@@ -5,29 +5,36 @@ import {
   useLayoutEffect,
   useRef,
 } from 'preact/hooks';
-import { buildRosarySteps } from '../data/rosary';
+import { buildRosarySteps, getMysteriesForToday, MYSTERY_SETS } from '../data/rosary';
 
-const STEPS = buildRosarySteps();
+const STEPS = buildRosarySteps(MYSTERY_SETS[getMysteriesForToday()]);
 
 /** Glory Be has no bead; it shares the last Hail Mary bead. */
-const GLORY_BE_STEP_INDICES = [6, 18, 30, 42, 54, 66];
+const GLORY_BE_STEP_INDICES = [6, 19, 32, 45, 58, 71];
+
+/** Mystery has no bead; it shares the Our Father bead (first bead of each decade). */
+const MYSTERY_STEP_INDICES = [7, 20, 33, 46, 59];
 
 /** Build list of step indices that own a physical bead. */
 function buildBeadPositions(): number[] {
   const positions: number[] = [];
   for (let i = 0; i < STEPS.length; i++) {
-    if (!GLORY_BE_STEP_INDICES.includes(i)) positions.push(i);
+    if (!GLORY_BE_STEP_INDICES.includes(i) && !MYSTERY_STEP_INDICES.includes(i))
+      positions.push(i);
   }
   return positions;
 }
 
 const BEAD_POSITIONS = buildBeadPositions();
 
-/** Map step index → bead position index (Glory Be maps to previous bead). */
+/** Map step index → bead position index (Glory Be → prev bead; Mystery → next bead/Our Father). */
 function stepToPosition(stepIndex: number): number {
-  const glory = GLORY_BE_STEP_INDICES.includes(stepIndex);
-  const step = glory ? stepIndex - 1 : stepIndex;
-  const idx = BEAD_POSITIONS.indexOf(step);
+  if (GLORY_BE_STEP_INDICES.includes(stepIndex)) {
+    stepIndex = stepIndex - 1;
+  } else if (MYSTERY_STEP_INDICES.includes(stepIndex)) {
+    stepIndex = stepIndex + 1;
+  }
+  const idx = BEAD_POSITIONS.indexOf(stepIndex);
   return idx >= 0 ? idx : 0;
 }
 
@@ -35,12 +42,12 @@ function stepToPosition(stepIndex: number): number {
 function hasChainGapAfter(stepIndex: number): boolean {
   if (stepIndex < 0) return false;
   if (stepIndex <= 6) return stepIndex === 2 || stepIndex === 5 || stepIndex === 6;
-  if (stepIndex === 67) return true;
-  const posInBlock = (stepIndex - 7) % 12;
-  return posInBlock === 0 || posInBlock === 10 || posInBlock === 11;
+  if (stepIndex === 72) return true; // after Hail Holy Queen bead
+  const posInBlock = (stepIndex - 7) % 13; // 13 steps per decade: Mystery, OF, 10 HM, GB
+  return posInBlock === 1 || posInBlock === 11; // after Our Father, after last Hail Mary
 }
 
-const HAIL_HOLY_QUEEN_STEP_INDEX = 67;
+const HAIL_HOLY_QUEEN_STEP_INDEX = 72;
 
 /* ================================================================== */
 

@@ -40,9 +40,16 @@ export const MYSTERY_SETS: Record<MysterySetId, MysteryItem[]> = {
   ],
 };
 
-/** Weekday to mystery set (Mon/Sat Joyful, Tue/Fri Sorrowful, Wed/Sun Glorious, Thu Luminous) */
+/** 
+ * Get the mystery set for today based on the Catholic Church's recommended schedule.
+ * Uses the user's local timezone and switches at midnight local time.
+ * Schedule: Sunday/Wednesday = Glorious, Monday/Saturday = Joyful, 
+ *           Tuesday/Friday = Sorrowful, Thursday = Luminous
+ */
 export function getMysteriesForToday(): MysterySetId {
-  const day = new Date().getDay(); // 0 Sun, 1 Mon, ...
+  // new Date() uses the user's local timezone, so getDay() returns the local weekday
+  // This automatically switches at midnight in the user's timezone
+  const day = new Date().getDay(); // 0 Sun, 1 Mon, 2 Tue, 3 Wed, 4 Thu, 5 Fri, 6 Sat
   if (day === 0 || day === 3) return 'glorious'; // Sun, Wed
   if (day === 1 || day === 6) return 'joy';      // Mon, Sat
   if (day === 2 || day === 5) return 'sorrow';   // Tue, Fri
@@ -97,8 +104,17 @@ export const HAIL_HOLY_QUEEN: PrayerStep = {
   body: 'Hail, holy Queen, Mother of mercy, our life, our sweetness, and our hope. To thee do we cry, poor banished children of Eve. To thee do we send up our sighs, mourning and weeping in this valley of tears. Turn then, most gracious advocate, thine eyes of mercy toward us. And after this our exile, show unto us the blessed fruit of thy womb, Jesus. O clement, O loving, O sweet Virgin Mary. Pray for us, O holy Mother of God. That we may be made worthy of the promises of Christ. Amen.',
 };
 
+/** Create a PrayerStep from a MysteryItem */
+function createMysteryStep(mystery: MysteryItem): PrayerStep {
+  return {
+    id: `mystery_${mystery.id}`,
+    title: `The ${mystery.number}${mystery.number === 1 ? 'st' : mystery.number === 2 ? 'nd' : mystery.number === 3 ? 'rd' : 'th'} Mystery: ${mystery.name}`,
+    body: mystery.meditation,
+  };
+}
+
 /** Build the full guided rosary sequence (intro + 5 decades + closing) */
-export function buildRosarySteps(): PrayerStep[] {
+export function buildRosarySteps(mysteries?: MysteryItem[]): PrayerStep[] {
   const steps: PrayerStep[] = [
     SIGN_OF_THE_CROSS,
     APOSTLES_CREED,
@@ -109,6 +125,10 @@ export function buildRosarySteps(): PrayerStep[] {
     GLORY_BE,
   ];
   for (let decade = 0; decade < 5; decade++) {
+    // Include mystery before each decade if mysteries are provided
+    if (mysteries && mysteries[decade]) {
+      steps.push(createMysteryStep(mysteries[decade]));
+    }
     steps.push(OUR_FATHER);
     for (let i = 0; i < 10; i++) steps.push(HAIL_MARY);
     steps.push(GLORY_BE);

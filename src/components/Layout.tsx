@@ -42,7 +42,7 @@ export function Layout({ children, hero: heroProp }: Props) {
   return (
     <div className={hero ? 'layout layout--hero' : 'layout'}>
       <Header menuOpen={menuOpen} onMenuToggle={() => setMenuOpen((o) => !o)} />
-      <Menu open={menuOpen} onClose={() => setMenuOpen(false)} />
+      <Menu open={menuOpen} onClose={() => setMenuOpen(false)} pathname={pathname} />
       <main className="layout__main">{children}</main>
     </div>
   );

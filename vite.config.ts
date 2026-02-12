@@ -4,7 +4,7 @@ import path from 'path';
 
 export default defineConfig(({ mode }) => ({
   server: {
-    host: true,
+    port: 5174,
   },
   plugins: [
     preact(),

@@ -69,11 +69,13 @@ export function Encouragement() {
         <p className="encouragement-thanks">Thank you. Your encouragement has been submitted for review.</p>
       )}
 
-      <p className="encouragement-submit-link">
-        <a href="#" className="glass-btn" onClick={(e) => { e.preventDefault(); const el = document.querySelector('.encouragement-form') as HTMLElement; el?.scrollIntoView({ behavior: 'smooth' }); (el?.querySelector('input') as HTMLInputElement | null)?.focus(); }}>
-          <span>submit your own encouragement</span>
-        </a>
-      </p>
+      {encouragement && (
+        <p className="encouragement-submit-link">
+          <a href="#" className="glass-btn" onClick={(e) => { e.preventDefault(); const el = document.querySelector('.encouragement-form') as HTMLElement; el?.scrollIntoView({ behavior: 'smooth' }); (el?.querySelector('input') as HTMLInputElement | null)?.focus(); }}>
+            <span>submit your own encouragement</span>
+          </a>
+        </p>
+      )}
 
       <form className="encouragement-form" onSubmit={onSubmit}>
         <h2 className="encouragement-form-title">Share Your Encouragement</h2>
