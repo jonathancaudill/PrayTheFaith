@@ -12,7 +12,11 @@ const SUPABASE_ANON_KEY =
   typeof import.meta.env !== 'undefined'
     ? (import.meta.env as { VITE_SUPABASE_ANON_KEY?: string }).VITE_SUPABASE_ANON_KEY
     : '';
-const USE_SUPABASE_REST = Boolean(SUPABASE_URL && SUPABASE_ANON_KEY);
+// Only use Supabase REST in development (localhost), never in production
+const USE_SUPABASE_REST = 
+  Boolean(SUPABASE_URL && SUPABASE_ANON_KEY) && 
+  typeof window !== 'undefined' && 
+  window.location.hostname === 'localhost';
 
 export interface Reading {
   id: string;
