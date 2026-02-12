@@ -16,13 +16,18 @@ export interface ReadingRow {
   text: string;
 }
 
-function getClient() {
-  return createClient({ connectionString: process.env.POSTGRES_URL });
+async function withClient<T>(fn: (client: ReturnType<typeof createClient>) => Promise<T>): Promise<T> {
+  const client = createClient({ connectionString: process.env.POSTGRES_URL });
+  await client.connect();
+  try {
+    return await fn(client);
+  } finally {
+    try { await client.end(); } catch { /* ignore close errors */ }
+  }
 }
 
 export async function getOneApprovedEncouragement(): Promise<EncouragementRow | null> {
-  const client = getClient();
-  try {
+  return withClient(async (client) => {
     const { rows } = await client.sql`
       SELECT id, author_name, location, content, status, created_at
       FROM encouragements
@@ -31,9 +36,7 @@ export async function getOneApprovedEncouragement(): Promise<EncouragementRow | 
       LIMIT 1
     `;
     return (rows[0] as EncouragementRow) || null;
-  } finally {
-    await client.end();
-  }
+  });
 }
 
 export async function createEncouragement(data: {
@@ -41,22 +44,18 @@ export async function createEncouragement(data: {
   location: string;
   content: string;
 }): Promise<{ id: string }> {
-  const client = getClient();
-  try {
+  return withClient(async (client) => {
     const { rows } = await client.sql`
       INSERT INTO encouragements (author_name, location, content, status)
       VALUES (${data.author_name}, ${data.location}, ${data.content}, 'pending')
       RETURNING id
     `;
     return { id: (rows[0] as { id: string }).id };
-  } finally {
-    await client.end();
-  }
+  });
 }
 
 export async function getReadingsByMystery(mystery_id: string): Promise<ReadingRow[]> {
-  const client = getClient();
-  try {
+  return withClient(async (client) => {
     const { rows } = await client.sql`
       SELECT id, mystery_id, reference, text
       FROM readings
@@ -64,14 +63,11 @@ export async function getReadingsByMystery(mystery_id: string): Promise<ReadingR
       ORDER BY id
     `;
     return rows as ReadingRow[];
-  } finally {
-    await client.end();
-  }
+  });
 }
 
 export async function listPendingEncouragements(): Promise<EncouragementRow[]> {
-  const client = getClient();
-  try {
+  return withClient(async (client) => {
     const { rows } = await client.sql`
       SELECT id, author_name, location, content, status, created_at
       FROM encouragements
@@ -79,31 +75,23 @@ export async function listPendingEncouragements(): Promise<EncouragementRow[]> {
       ORDER BY created_at ASC
     `;
     return rows as EncouragementRow[];
-  } finally {
-    await client.end();
-  }
+  });
 }
 
 export async function approveEncouragement(id: string): Promise<boolean> {
-  const client = getClient();
-  try {
+  return withClient(async (client) => {
     const { rowCount } = await client.sql`
       UPDATE encouragements SET status = 'approved' WHERE id = ${id} AND status = 'pending'
     `;
     return (rowCount ?? 0) > 0;
-  } finally {
-    await client.end();
-  }
+  });
 }
 
 export async function rejectEncouragement(id: string): Promise<boolean> {
-  const client = getClient();
-  try {
+  return withClient(async (client) => {
     const { rowCount } = await client.sql`
       DELETE FROM encouragements WHERE id = ${id} AND status = 'pending'
     `;
     return (rowCount ?? 0) > 0;
-  } finally {
-    await client.end();
-  }
+  });
 }
