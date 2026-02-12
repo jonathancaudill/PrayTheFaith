@@ -14,6 +14,8 @@ dist/
 npm-debug.log*
 
 # Editor
+.cursor/
+.pnpm-store/
 .DS_Store
 .idea/
 .vscode/
