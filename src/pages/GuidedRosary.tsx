@@ -201,16 +201,7 @@ export function GuidedRosary() {
                       }
                       aria-hidden
                     >
-                      <svg
-                        viewBox="0 0 24 32"
-                        fill="none"
-                        stroke="currentColor"
-                        strokeWidth="1.2"
-                        xmlns="http://www.w3.org/2000/svg"
-                      >
-                        <path d="M12 2v28M8 6h8M6 10h12M12 10v12" />
-                        <circle cx="12" cy="22" r="2.5" />
-                      </svg>
+                      <span className="guided__crucifix-icon">✝︎</span>
                     </div>
                   );
                 }
